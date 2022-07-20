@@ -82,7 +82,7 @@ git merge (--continuar | --abortar | --salir)
 ```
 ![merge](/resource/merge.png)
 
-##Log (git log)
+## Log (git log)
 ---
 >git log [opciones] [<rango de revisión>] [[--] ruta…​]
 
