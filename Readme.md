@@ -81,3 +81,21 @@ Enumera todas las ramas remotas.
 git merge (--continuar | --abortar | --salir)
 ```
 ![merge](/resource/merge.png)
+
+##Log (git log)
+---
+>git log [opciones] [<rango de revisión>] [[--] ruta…​]
+
+![log](/resource/log.jpeg)
+
+Muestra los registros de confirmación.
+
+*Algunas Opciones:*
++ git log --oneline: Log en una línea por commit.
++ git log -"#": Ver un número limitado de commits.
++ git log -# -p: Ver información extendida del commit.
++ git log --graph --oneline: Opción --graph para el log con diagrama de las ramas.
++ git show b2c07b2: obtener mayor información de un commit.
+
+
+
