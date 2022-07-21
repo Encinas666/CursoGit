@@ -97,5 +97,61 @@ Muestra los registros de confirmación.
 + git log --graph --oneline: Opción --graph para el log con diagrama de las ramas.
 + git show b2c07b2: obtener mayor información de un commit.
 
+## Flow (git flow)
+
+Gitflow es un modelo alternativo de creación de ramas en Git en el que se utilizan ramas de función y varias ramas principales. Fue Vincent Driessen en nvie quien lo publicó por primera vez y quien lo popularizó. En comparación con el desarrollo basado en troncos, Gitflow tiene diversas ramas de más duración y mayores confirmaciones. Según este modelo, los desarrolladores crean una rama de función y retrasan su fusión con la rama principal del tronco hasta que la función está completa. Estas ramas de función de larga duración requieren más colaboración para la fusión y tienen mayor riesgo de desviarse de la rama troncal. También pueden introducir actualizaciones conflictivas.
+
+*Ramas principales y de desarrollo*
+
+En lugar de una única rama main, este flujo de trabajo utiliza dos ramas para registrar el historial del proyecto. La rama main o principal almacena el historial de publicación oficial y la rama develop o de desarrollo sirve como rama de integración para las funciones. Asimismo, conviene etiquetar todas las confirmaciones de la rama main con un número de versión.
+
+El primer paso es complementar la rama main predeterminada con una rama develop. Una forma sencilla de hacerlo es que un desarrollador cree de forma local una rama develop vacía y la envíe al servidor:
+```
+ git branch develop 
+ git push -u origin develop
+```
+Esta rama contendrá el historial completo del proyecto, mientras que main contendrá una versión abreviada. A continuación, otros desarrolladores deberían clonar el repositorio central y crear una rama de seguimiento para develop.
+
+A la hora de utilizar la biblioteca de extensiones de git-flow, ejecutar git flow init en un repositorio existente creará la rama develop:
+```
+$ git flow init
+
+Initialized empty Git repository in ~/project/.git/
+No branches exist yet. Base branches must be created now.
+Branch name for production releases: [main]
+Branch name for "next release" development: [develop]
 
 
+How to name your supporting branch prefixes?
+Feature branches? [feature/]
+Release branches? [release/]
+Hotfix branches? [hotfix/]
+Support branches? [support/]
+Version tag prefix? []
+
+
+$ git branch
+* develop
+ main
+```
+
+
+-*Ramas de función*
+
+Todas las funciones nuevas deben residir en su propia rama, que se puede enviar al repositorio central para copia de seguridad/colaboración. Sin embargo, en lugar de ramificarse de main, las ramas feature utilizan la rama develop como rama primaria. Cuando una función está terminada, se vuelve a fusionar en develop. Las funciones no deben interactuar nunca directamente con main.
+
+![flow](/resource/flow.png)
+
+Ten en cuenta que las ramas feature combinadas con la rama develop conforman, a todos efectos, el flujo de trabajo de ramas de función. Sin embargo, el flujo de trabajo Gitflow no termina aquí.
+
+Las ramas feature suelen crearse a partir de la última rama develop.
+
+El flujo general de Gitflow es el siguiente:
+
+1. Se crea una rama develop a partir de main.
+2. Se crea una rama release a partir de la develop.
+3. Se crean ramas feature a partir de la develop.
+4. Cuando se termina una rama feature, se fusiona en la rama develop.
+5. Cuando la rama release está lista, se fusiona en las ramas develop y main.
+6. Si se detecta un problema en main, se crea una rama hotfix a partir de main.
+7. Una vez terminada la rama hotfix, esta se fusiona tanto en develop como en main.
