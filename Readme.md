@@ -121,15 +121,6 @@ No branches exist yet. Base branches must be created now.
 Branch name for production releases: [main]
 Branch name for "next release" development: [develop]
 
-
-How to name your supporting branch prefixes?
-Feature branches? [feature/]
-Release branches? [release/]
-Hotfix branches? [hotfix/]
-Support branches? [support/]
-Version tag prefix? []
-
-
 $ git branch
 * develop
  main
@@ -155,3 +146,45 @@ El flujo general de Gitflow es el siguiente:
 5. Cuando la rama release está lista, se fusiona en las ramas develop y main.
 6. Si se detecta un problema en main, se crea una rama hotfix a partir de main.
 7. Una vez terminada la rama hotfix, esta se fusiona tanto en develop como en main.
+  
+## Reflog (git reflog)
+---
+
+it realiza el seguimiento de las actualizaciones en el extremo de las ramas a través de un mecanismo denominado registros de referencias o "reflogs". Muchos de los comandos de Git aceptan un parámetro para especificar una referencia o "ref", que es un puntero a una confirmación. Entre los ejemplos habituales se incluyen los siguientes:
+
++ git checkout
++ git reset
++ git merge
+
+Los registros de referencias realizan un seguimiento de cuándo se han actualizado las referencias de Git en el repositorio local. Además de los registros de referencias del extremo de la rama, se conserva un registro de referencias especial para "git stash". Los registros de referencias se almacenan en los directorios dentro del directorio .git del repositorio local. Los directorios de git reflog se encuentran en .git/logs/refs/heads/., .git/logs/HEAD y también en .git/logs/refs/stash si se ha usado el comando git stash en el repositorio.
+
+*Uso básico*
+
+El caso de uso más básico de Reflog invoca lo siguiente:
+
+> git reflog
+
+Se trata básicamente de un acceso directo que equivale a:
+
+> git reflog show HEAD
+
+Esto dará como resultado el registro de referencias para HEAD. El resultado debería ser algo parecido a lo siguiente:
+
+>eff544f HEAD@{0}: commit: migrate existing content
+>
+>bf871fd HEAD@{1}: commit: Add Git Reflog outline
+>
+>9a4491f HEAD@{2}: checkout: moving from main to >git_reflog
+>
+>9a4491f HEAD@{3}: checkout: moving from >Git_Config to main
+>
+>39b159a HEAD@{4}: commit: expand on git context 
+>
+>9b3aa71 HEAD@{5}: commit: more color >clarification
+>
+>f34388b HEAD@{6}: commit: expand on color >support 
+>
+>9962aed HEAD@{7}: commit: a git editor -> the >Git editor
+
+Visita la página Reescritura del historial para ver otro ejemplo de acceso habitual al registro de referencias.
+
